@@ -1,13 +1,182 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #2e2e38;
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: auto;
+}
+
+.welcome-section {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 40px;
+  margin-bottom: 40px;
+}
+
+.welcome-title {
+  font-size: 70px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8af70 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.welcome-subtitle {
+  font-size: 25px;
+  opacity: 0.9;
+  margin-bottom: 60px;
+  max-width: 700px;
+  line-height: 1.5;
+}
+
+.login-prompt {
+  background: rgb(0, 0, 0);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  padding: 32px 150px;
+  margin-bottom: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.9);
+  width: 900px;
+  max-width: 90%;
+  height: 250px;          /* fixed height so content doesn't resize the container */
+  box-sizing: border-box; /* ensure padding is included in height/width */
+}
+
+.login-prompt h3 {
+  font-size: 35px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.login-prompt p {
+  font-size: 20px;
+  opacity: 0.8;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.big-login-btn {
+  background: linear-gradient(135deg, #fe924f 0%, #fe6a00 100%);
+  border: none;
+  padding: 16px 32px;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.big-login-btn:hover {
+  transform: translateY(-3px);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: rgb(0, 0, 0);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.9);
+  /* border: 1px solid rgba(255, 255, 255, 0.2); */
+  border-radius: 16px;
+  padding: 50px;
+  text-align: center;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.feature-icon {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #ffffff;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.feature-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.feature-desc {
+  font-size: 16px;
+  opacity: 0.9;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.contact-email {
+  color: #92fe9d;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.contact-email:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+
+  .header h1 {
+    font-size: 2.2rem;
+  }
+
+  .header p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .feature-card {
+    padding: 20px;
+  }
+
+  .feature-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .feature-title {
+    font-size: 18px;
+  }
+
+  .feature-desc {
+    font-size: 14px;
+  }
 }
