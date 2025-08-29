@@ -1,0 +1,31 @@
+import { useState } from 'react';
+
+function NavBar() {
+  const [theme, setTheme] = useState('dark');
+
+  const toggleTheme = () => {
+    if (theme === 'dark') {
+      document.body.classList.remove('dark-mode');
+      document.body.classList.add('light-mode');
+      setTheme('light');
+    } else {
+      document.body.classList.remove('light-mode');
+      document.body.classList.add('dark-mode');
+      setTheme('dark');
+    }
+  };
+
+  return (
+    <nav className="navbar">
+      <div className="nav-brand">InfluxDB No-Code</div>
+      <div className="nav-actions">
+        <button className="theme-toggle" onClick={toggleTheme}>
+          {theme === 'dark' ? 'Dark' : 'Light'}
+        </button>
+        <button className="nav-login-btn">Login</button>
+      </div>
+    </nav>
+  );
+}
+
+export default NavBar;

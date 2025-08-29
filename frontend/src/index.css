@@ -238,3 +238,18 @@ body.light-mode .welcome-title {
     font-size: 14px;
   }
 }
+
+footer.footer {
+  background: rgb(0,0,0);
+  backdrop-filter: blur(15px);
+  color: #ffffff;
+  padding: 40px 20px;
+  text-align: center;
+  margin-top: 40px;
+  border-radius: 16px;
+}
+
+body.light-mode footer.footer {
+  background: rgba(238, 238, 238, 0.8);
+  color: #2b2a2a;
+}
