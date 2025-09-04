@@ -1,3 +1,5 @@
+/* BODY */
+
 * {
   margin: 0;
   padding: 0;
@@ -12,14 +14,28 @@ body {
   overflow-x: auto;
 }
 
-/* navigation bar */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/*  DARK MODE COMPONENTS  */
+
+/* NAVIGATION BAR */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
   background-color: #1f1f1f;
-  /* for dark mode */
 }
 
 .nav-actions {
@@ -38,8 +54,10 @@ body {
   cursor: pointer;
   background-color: orange;
   color: #fff;
-  /* dark mode text */
 }
+
+
+/* WELCOME SECTION */
 
 .welcome-section {
   grid-column: 1 / -1;
@@ -116,6 +134,9 @@ body {
   transform: translateY(-3px);
 }
 
+
+/* FEATURE GRID */
+
 .features-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -129,7 +150,6 @@ body {
   background: rgb(0, 0, 0);
   backdrop-filter: blur(15px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.9);
-  /* border: 1px solid rgba(255, 255, 255, 0.2); */
   border-radius: 16px;
   padding: 50px;
   text-align: center;
@@ -219,6 +239,8 @@ body {
   padding: 20px;
   min-height: 100vh;
 }
+
+/* DASHBOARD */
 
 .dashboard-tabs {
   background: #000000;
@@ -333,6 +355,9 @@ body {
   gap: 24px;
 }
 
+
+/* VISUALISATION SECTINO */
+
 .visualization-section {
   display: grid;
   grid-template-columns: 1fr;
@@ -358,12 +383,18 @@ body {
   gap: 8px;
 }
 
-/* All light mode components -------------------- */
+
+
+/*  LIGHT MODE  */
+
+/* BODY */
+
 body.light-mode {
   background: #f8f9fa;
   color: #1e1e1e;
-  /* Ensure child components have dark text */
 }
+
+/* NAVIGATION BAR */
 
 body.light-mode .navbar {
   background-color: #ffffff;
@@ -394,7 +425,6 @@ body.light-mode .big-login-btn:hover {
   transform: translateY(-3px);
 }
 
-/* Ensure login prompt text stays white at 100% opacity */
 body.light-mode .login-prompt h3,
 body.light-mode .login-prompt p {
   transform: translateY(-3px);
@@ -402,7 +432,8 @@ body.light-mode .login-prompt p {
   opacity: 100%;
 }
 
-/* Make Welcome title readable in light mode */
+/* WELCOME SECTION */
+
 body.light-mode .welcome-title {
   background: linear-gradient(135deg, orange 60%, #ffffff 100%);
   -webkit-background-clip: text;
@@ -424,6 +455,9 @@ body.light-mode .code-panel {
     0 8px 24px rgba(0, 0, 0, 0.2);
   backdrop-filter: none;
 }
+
+
+/* DASHBOARD */
 
 body.light-mode .dashboard-tabs {
   border: 1px solid #f0b44c;
@@ -492,7 +526,6 @@ body.light-mode .folder-item{
 body.light-mode .sub-folder-item{
   background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  /* color: black; */
 }
 
 body.light-mode .query-action-btn{
@@ -500,19 +533,6 @@ body.light-mode .query-action-btn{
   background: linear-gradient(135deg, #fe954f 0%, #fe7b00 100%);
   color: white;
 }
-/* ==================== */
-/* Saved Queries - Light Mode */
-/* ==================== */
-
-/* body.light-mode .card.saved-queries {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-body.light-mode .card.saved-queries .card-title {
-  color: #fe7b00;
-} */
 
 body.light-mode .search-box {
   background: #f9f9f9;
@@ -717,8 +737,6 @@ body.light-mode .query-action-btn:hover {
   transition: all 0.3s ease;
   font-size: 14px;
 }
-
-
 
 .btn-primary {
   background: linear-gradient(135deg, #fe954f 0%, #fe7b00 100%);
@@ -977,9 +995,9 @@ input:checked+.toggle-slider:hover {
 
 .sub-folder-item {
   background: rgba(255, 255, 255, 0.05);
-  padding: 6px 10px;
+  padding: 6px;
   border-radius: 4px;
-  margin: 4px 0;
+  margin: 4px;
   cursor: pointer;
   font-size: 13px;
   transition: all 0.3s ease;
@@ -1084,7 +1102,7 @@ input:checked+.toggle-slider:hover {
   font-size: 15px;
 }
 
-/* Queries inside folder */
+
 .sub-folder-list {
   list-style: none;
   padding-left: 14px;
@@ -1094,7 +1112,7 @@ input:checked+.toggle-slider:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 6px;
+  padding: 8px 10px;
   border-radius: 8px;
   transition: background 0.2s ease;
   font-size: 14px;
@@ -1124,21 +1142,5 @@ input:checked+.toggle-slider:hover {
   color: #fe954f;
 }
 
-html, body, #root {
-  height: 100%;
-  margin: 0;
-}
-
-.app-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.app-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
 
 
