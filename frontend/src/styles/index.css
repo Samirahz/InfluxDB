@@ -34,7 +34,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1.2rem 3rem;
   background-color: #1f1f1f;
 }
 
@@ -44,18 +44,40 @@ body {
   align-items: center;
 }
 
+.nav-brand {
+  font-weight: bold;
+  font-size: 1.2rem;
+  background: linear-gradient(150deg, #ffffff 0%, orange 100%);
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* buttons */
-.theme-toggle,
-.nav-login-btn,
-.big-login-btn {
-  padding: 0.5rem 1rem;
+.theme-toggle, .nav-login-btn {
+  background: linear-gradient(100deg, #fe924f 0%, orange 100%);
+  padding: 0.5rem 1.5rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: orange;
   color: #fff;
 }
 
+.big-login-btn {
+  background: linear-gradient(100deg, #fe924f 0%, orange 100%);
+  border: none;
+  padding: 16px 32px;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.theme-toggle:hover, .nav-login-btn:hover, .big-login-btn:hover {
+  transform: translateY(-2px);
+}
 
 /* WELCOME SECTION */
 
@@ -74,7 +96,7 @@ body {
   font-size: 70px;
   font-weight: 800;
   margin-bottom: 20px;
-  background: linear-gradient(135deg, #ffffff 0%, orange 100%);
+  background: linear-gradient(150deg, #ffffff 0%, orange 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -115,23 +137,6 @@ body {
   opacity: 0.8;
   margin-bottom: 24px;
   line-height: 1.5;
-}
-
-.big-login-btn {
-  background: linear-gradient(135deg, #fe924f 0%, #fe6a00 100%);
-  border: none;
-  padding: 16px 32px;
-  border-radius: 12px;
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 18px;
-  transition: all 0.3s ease;
-  min-width: 200px;
-}
-
-.big-login-btn:hover {
-  transform: translateY(-3px);
 }
 
 
@@ -346,7 +351,6 @@ body {
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 24px;
-  height: calc(100vh - 180px);
 }
 
 .query-section {
@@ -383,6 +387,65 @@ body {
   gap: 8px;
 }
 
+/* FOOTER */
+
+.footer {
+  background: #1f1f1f;
+  color: #f0f0f0;
+  padding: 3rem;
+  margin-top: 10rem;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.footer-brand {
+  max-width: 250px;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.footer-text {
+  font-size: 0.9rem;
+  color: #c7c7c7;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #c7c7c7;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #ffffff; /* brighten on hover */
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.8rem;
+  color: #a0a0a0;
+}
+
+
 
 
 /* === LIGHT MODE === */
@@ -390,44 +453,44 @@ body {
 /* BODY */
 
 body.light-mode {
-  background: #f8f9fa;
+  background: linear-gradient(120deg, #fdfdfd, #f7f7f7);
   color: #1e1e1e;
 }
 
 /* NAVIGATION BAR */
 
 body.light-mode .navbar {
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 }
 
-body.light-mode .theme-toggle,
+body.light-mode .nav-brand {
+  background: linear-gradient(120deg, #2e2e2e, #fe7b00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Buttons */
 body.light-mode .nav-login-btn,
-body.light-mode .big-login-btn {
-  color: white;
-  background: linear-gradient(135deg, orange 100%, #ffffff 100%);
-}
-
-body.light-mode .big-login-btn {
-  background: linear-gradient(135deg, #fe924f 0%, #fe6a00 100%);
+body.light-mode .big-login-btn,
+body.light-mode .theme-toggle {
+  background: linear-gradient(200deg, #2e2e2e, #fe7b00);
+  color: #fff;
   border: none;
-  padding: 16px 32px;
-  border-radius: 12px;
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 18px;
-  transition: all 0.3s ease;
-  min-width: 200px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
+body.light-mode .theme-toggle:hover,
+body.light-mode .nav-login-btn:hover,
 body.light-mode .big-login-btn:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(254, 123, 0, 0.4);
 }
+
 
 body.light-mode .login-prompt h3,
 body.light-mode .login-prompt p {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   color: white;
   opacity: 100%;
 }
@@ -435,11 +498,12 @@ body.light-mode .login-prompt p {
 /* WELCOME SECTION */
 
 body.light-mode .welcome-title {
-  background: linear-gradient(135deg, orange 60%, #ffffff 100%);
+  background: linear-gradient(120deg, #2e2e2e, #fe7b00);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
+
+
 
 /* Cards, propmts, panels */
 body.light-mode .feature-card,
@@ -455,6 +519,7 @@ body.light-mode .code-panel {
     0 8px 24px rgba(0, 0, 0, 0.2);
   backdrop-filter: none;
 }
+
 
 
 /* DASHBOARD */
@@ -584,6 +649,35 @@ body.light-mode .query-action-btn:hover {
   background: #fff;
   border-color: #fe7b00;
   color: #fe7b00;
+}
+
+/* Footer */
+body.light-mode .footer {
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+body.light-mode .footer-logo {
+  background: linear-gradient(120deg, #2e2e2e, #fe7b00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.light-mode .footer-text {
+  color: #555;
+}
+
+body.light-mode .footer-links a {
+  color: #555;
+}
+
+body.light-mode .footer-links a:hover {
+  color: #fe7b00;
+}
+
+body.light-mode .footer-bottom {
+  color: #777;
+  border-top: 1px solid rgba(0,0,0,0.08);
 }
 
 /* -------------------- */
@@ -1025,15 +1119,7 @@ input:checked+.toggle-slider:hover {
   }
 }
 
-/* footer.footer {
-  background: rgb(0, 0, 0);
-  backdrop-filter: blur(15px);
-  color: #ffffff;
-  padding: 40px 20px;
-  text-align: center;
-  margin-top: 40px;
-  border-radius: 16px;
-} */
+
 
 * {
   transition: all 0.2s ease-in-out;

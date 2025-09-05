@@ -68,7 +68,7 @@ export default function AuthModal({isOpen, onClose}) {
             />
             </div>
 
-            <button type="submit" className="btn-primary">
+            <button type="submit" className="btn-auth">
                 {mode === "login" ? "Log In" : "Sign Up"}
             </button>
         </form>

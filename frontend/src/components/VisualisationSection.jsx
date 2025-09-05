@@ -11,7 +11,7 @@ export default function VisualizationSection() {
     return (
         <div className="visualization-section">
         <div className="card visualization-panel">
-            {/* Tabs */}
+
             <div className="tabs">
             <div
                 className={`tab ${activeTab === "chart" ? "active" : ""}`}
@@ -27,16 +27,10 @@ export default function VisualizationSection() {
             </div>
             </div>
 
-            {/* Chart Controls */}
             <ChartControls chartType={chartType} setChartType={setChartType} />
-
-            {/* Chart / Table */}
             <ChartContainer activeTab={activeTab} chartType={chartType} />
-
-            {/* Flux Panel */}
             <FluxCodePanel showFlux={showFlux} setShowFlux={setShowFlux} />
 
-            {/* Export Buttons */}
             <div className="btn-group" style={{ marginTop: "16px" }}>
             <button className="btn btn-primary">Export to Grafana</button>
             <button

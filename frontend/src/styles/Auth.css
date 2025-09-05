@@ -15,15 +15,15 @@
 }
 
 .modal {
-  background: #111111;
-  border: 1px solid rgba(8, 7, 7, 0.2);
-  backdrop-filter: blur(15px);
+  background: linear-gradient(160deg, #1b1b1d 0%, #101010 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
   padding: 2rem;
   border-radius: 16px;
   width: 400px;
   max-width: 95%;
   position: relative;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
   animation: slideUp 0.3s ease-out;
 }
 
@@ -105,7 +105,7 @@
 
 /* === LOGIN/SIGNUP BUTTONS === */
 
-.btn-primary {
+.btn-auth {
   background: linear-gradient(135deg, #fe954f 0%, #fe6a00 100%);
   border: none;
   padding: 12px 20px;
@@ -119,7 +119,7 @@
   transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
+.btn-auth:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(254, 122, 0, 0.4);
 }
@@ -193,3 +193,85 @@
 .switch-text .switch-link:hover {
   color: #fe6a00;
 }
+
+
+/* === LIGHT MODE AUTH MODAL === */
+
+body.light-mode .modal {
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+body.light-mode .modal h2 {
+  background: linear-gradient(120deg, #2e2e2e, #fe7b00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+
+body.light-mode .modal-close {
+  color: #333;
+  background: rgba(0,0,0,0.05);
+}
+
+body.light-mode .modal-close:hover {
+  background: rgba(0,0,0,0.12);
+}
+
+/* Form inputs */
+body.light-mode .auth-form label {
+  color: #222;
+}
+
+body.light-mode .auth-form input {
+  background: #fdfdfd;
+  border: 1px solid rgba(0,0,0,0.15);
+  color: #111;
+}
+
+body.light-mode .auth-form input:focus {
+  border-color: #fe7b00;
+  background: #fff;
+}
+
+/* Primary buttons */
+body.light-mode .btn-auth {
+  background: linear-gradient(135deg, #fe954f 0%, #fe6a00 100%);
+  color: #fff;
+}
+
+body.light-mode .btn-auth:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(254, 122, 0, 0.4);
+}
+
+/* OAuth buttons */
+body.light-mode .btn-oauth {
+  background: #f8f8f8;
+  border: 1px solid rgba(0,0,0,0.1);
+  color: #333;
+}
+
+body.light-mode .btn-oauth:hover {
+  background: #efefef;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+}
+
+/* Divider + switch text */
+body.light-mode .divider {
+  color: #555;
+}
+
+body.light-mode .switch-text {
+  color: #333;
+}
+
+body.light-mode .switch-text .switch-link {
+  color: #fe7b00;
+}
+
+body.light-mode .switch-text .switch-link:hover {
+  color: #e26000;
+}
+
