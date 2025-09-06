@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict u7Xp0dJtzeLrJWdpavRczgrEhSm2c9B4C8pGURRVbIaB0F1swem7EuLxKbTDCzr
+\restrict 3Ojo6N2sCD3dh0JHYksaQ2txS3ii7nS0FnLbut0B5AJaIghSRCDkuucUKsTQn3X
 
 -- Dumped from database version 15.3
 -- Dumped by pg_dump version 15.14 (Homebrew)
@@ -64,6 +64,7 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 COPY public.users (id, email, password, created_at) FROM stdin;
 614e5fd5-b308-4b8d-b093-4c62913e0809	tramnguyen71704@gmail.com	$2b$10$4i1WmkeFRkAwHIhvsXGTEe.6ogNehbFt7SgH/cNx9D3p9A5X746Ka	2025-09-06 08:44:47.617066
+acfcf4d1-a57c-4ee8-93aa-505bafe06480	janenntt177@gmail.com	$2b$10$.w3R6qeTnVu0.L6jBObekeh6CUgTK25L551Xy9I.VT5e5cMO5qkVy	2025-09-06 10:47:52.83648
 \.
 
 
@@ -94,5 +95,5 @@ ALTER TABLE ONLY public.users
 -- PostgreSQL database dump complete
 --
 
-\unrestrict u7Xp0dJtzeLrJWdpavRczgrEhSm2c9B4C8pGURRVbIaB0F1swem7EuLxKbTDCzr
+\unrestrict 3Ojo6N2sCD3dh0JHYksaQ2txS3ii7nS0FnLbut0B5AJaIghSRCDkuucUKsTQn3X
 
