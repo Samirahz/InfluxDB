@@ -65,6 +65,7 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 COPY public.users (id, email, password, created_at) FROM stdin;
 614e5fd5-b308-4b8d-b093-4c62913e0809	tramnguyen71704@gmail.com	$2b$10$4i1WmkeFRkAwHIhvsXGTEe.6ogNehbFt7SgH/cNx9D3p9A5X746Ka	2025-09-06 08:44:47.617066
 acfcf4d1-a57c-4ee8-93aa-505bafe06480	janenntt177@gmail.com	$2b$10$.w3R6qeTnVu0.L6jBObekeh6CUgTK25L551Xy9I.VT5e5cMO5qkVy	2025-09-06 10:47:52.83648
+9a0ca906-76a7-4228-ac2b-da149b7b1b8d    kritiaggarwal710@gmail.com    $2b$10$.Oi0swK8k.x.6iZ44Y13Quj/0bsJJcSm/WhMyc9JOEd4acfehybm.    2025-09-08 20:10:05.66367
 \.
 
 
