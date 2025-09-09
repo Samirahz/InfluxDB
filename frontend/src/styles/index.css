@@ -98,8 +98,8 @@ body {
   margin-bottom: 20px;
   background: linear-gradient(150deg, #ffffff 0%, orange 100%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .welcome-subtitle {
@@ -467,6 +467,7 @@ body.light-mode .navbar {
 body.light-mode .nav-brand {
   background: linear-gradient(120deg, #2e2e2e, #fe7b00);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -502,6 +503,7 @@ body.light-mode .login-prompt p {
 body.light-mode .welcome-title {
   background: linear-gradient(120deg, #2e2e2e, #fe7b00);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -661,6 +663,7 @@ body.light-mode .footer {
 
 body.light-mode .footer-logo {
   background: linear-gradient(120deg, #2e2e2e, #fe7b00);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

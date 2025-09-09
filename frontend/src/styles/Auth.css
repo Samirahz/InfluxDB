@@ -65,6 +65,7 @@
   font-weight: 700;
   margin-bottom: 20px;
   background: white;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
@@ -205,6 +206,7 @@ body.light-mode .modal {
 
 body.light-mode .modal h2 {
   background: linear-gradient(120deg, #2e2e2e, #fe7b00);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
