@@ -1,4 +1,4 @@
-export default function DashboardTabs(){
+export default function DashboardTabs() {
     return (
         <div className="dashboard-tabs">
             <div className="dashboard-tab active">

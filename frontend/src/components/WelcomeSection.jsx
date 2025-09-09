@@ -1,6 +1,6 @@
 // import { useState } from 'react';
 
-export default function WelcomeSection({onOpenAuth}) {
+export default function WelcomeSection({ onOpenAuth }) {
 
   // const [isAuthOpen, setAuthOpen] = useState(false);
 

@@ -53,7 +53,9 @@ body {
 }
 
 /* buttons */
-.theme-toggle, .nav-login-btn, .nav-logout-btn {
+.theme-toggle,
+.nav-login-btn,
+.nav-logout-btn {
   background: linear-gradient(100deg, #fe924f 0%, orange 100%);
   padding: 0.5rem 1.5rem;
   border: none;
@@ -75,7 +77,10 @@ body {
   min-width: 200px;
 }
 
-.theme-toggle:hover, .nav-login-btn:hover, .nav-logout-btn:hover, .big-login-btn:hover {
+.theme-toggle:hover,
+.nav-login-btn:hover,
+.nav-logout-btn:hover,
+.big-login-btn:hover {
   transform: translateY(-2px);
 }
 
@@ -98,8 +103,8 @@ body {
   margin-bottom: 20px;
   background: linear-gradient(150deg, #ffffff 0%, orange 100%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .welcome-subtitle {
@@ -433,7 +438,8 @@ body {
 }
 
 .footer-links a:hover {
-  color: #ffffff; /* brighten on hover */
+  color: #ffffff;
+  /* brighten on hover */
 }
 
 .footer-bottom {
@@ -461,12 +467,13 @@ body.light-mode {
 
 body.light-mode .navbar {
   background: #ffffff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 body.light-mode .nav-brand {
   background: linear-gradient(120deg, #2e2e2e, #fe7b00);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -502,6 +509,7 @@ body.light-mode .login-prompt p {
 body.light-mode .welcome-title {
   background: linear-gradient(120deg, #2e2e2e, #fe7b00);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -577,25 +585,25 @@ body.light-mode .feature-title {
   opacity: 0.9;
 }
 
-body.light-mode .card-title{
+body.light-mode .card-title {
   color: white;
 }
 
-body.light-mode .search-box{
+body.light-mode .search-box {
   background-color: white;
   color: black;
 }
 
-body.light-mode .folder-item{
+body.light-mode .folder-item {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-body.light-mode .sub-folder-item{
+body.light-mode .sub-folder-item {
   background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-body.light-mode .query-action-btn{
+body.light-mode .query-action-btn {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: linear-gradient(135deg, #fe954f 0%, #fe7b00 100%);
   color: white;
@@ -656,11 +664,12 @@ body.light-mode .query-action-btn:hover {
 /* Footer */
 body.light-mode .footer {
   background: #ffffff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 body.light-mode .footer-logo {
   background: linear-gradient(120deg, #2e2e2e, #fe7b00);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -679,7 +688,7 @@ body.light-mode .footer-links a:hover {
 
 body.light-mode .footer-bottom {
   color: #777;
-  border-top: 1px solid rgba(0,0,0,0.08);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 /* -------------------- */
@@ -1132,7 +1141,7 @@ input:checked+.toggle-slider:hover {
   background: #111111;
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   margin-top: 20px;
 }
 
@@ -1146,6 +1155,7 @@ input:checked+.toggle-slider:hover {
   align-items: center;
   gap: 8px;
 }
+
 .card-title::before {
   font-size: 18px;
 }
@@ -1162,6 +1172,7 @@ input:checked+.toggle-slider:hover {
   margin-bottom: 18px;
   font-size: 14px;
 }
+
 .search-box::placeholder {
   color: #888;
 }
@@ -1172,12 +1183,14 @@ input:checked+.toggle-slider:hover {
   padding: 0;
   margin: 0;
 }
+
 .folder-item {
   margin-bottom: 16px;
   background: #1a1a1a;
   border-radius: 12px;
   padding: 12px 14px;
 }
+
 .folder-name {
   display: flex;
   justify-content: space-between;
@@ -1186,6 +1199,7 @@ input:checked+.toggle-slider:hover {
   color: #fff;
   margin-bottom: 8px;
 }
+
 .folder-name span {
   font-size: 15px;
 }
@@ -1196,6 +1210,7 @@ input:checked+.toggle-slider:hover {
   padding-left: 14px;
   margin: 0;
 }
+
 .sub-folder-item {
   display: flex;
   justify-content: space-between;
@@ -1215,6 +1230,7 @@ input:checked+.toggle-slider:hover {
   display: flex;
   gap: 6px;
 }
+
 .query-action-btn {
   background: transparent;
   border: 1px solid #444;
@@ -1225,10 +1241,8 @@ input:checked+.toggle-slider:hover {
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
 .query-action-btn:hover {
   border-color: #fe954f;
   color: #fe954f;
 }
-
-
-

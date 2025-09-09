@@ -32,6 +32,7 @@
     opacity: 0;
     transform: translateY(30px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -65,6 +66,7 @@
   font-weight: 700;
   margin-bottom: 20px;
   background: white;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
@@ -162,7 +164,7 @@
 .btn-oauth:hover {
   background: #f1f1f1;
   transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
 }
 
 .divider {
@@ -182,6 +184,7 @@
 .switch-text .switch-account {
   font-size: 15px;
 }
+
 .switch-text .switch-link {
   color: #fe954f;
   font-weight: 500;
@@ -199,12 +202,13 @@
 
 body.light-mode .modal {
   background: #ffffff;
-  border: 1px solid rgba(0,0,0,0.1);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 body.light-mode .modal h2 {
   background: linear-gradient(120deg, #2e2e2e, #fe7b00);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
@@ -212,11 +216,11 @@ body.light-mode .modal h2 {
 
 body.light-mode .modal-close {
   color: #333;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 body.light-mode .modal-close:hover {
-  background: rgba(0,0,0,0.12);
+  background: rgba(0, 0, 0, 0.12);
 }
 
 /* Form inputs */
@@ -226,7 +230,7 @@ body.light-mode .auth-form label {
 
 body.light-mode .auth-form input {
   background: #fdfdfd;
-  border: 1px solid rgba(0,0,0,0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
   color: #111;
 }
 
@@ -249,13 +253,13 @@ body.light-mode .btn-auth:hover {
 /* OAuth buttons */
 body.light-mode .btn-oauth {
   background: #f8f8f8;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   color: #333;
 }
 
 body.light-mode .btn-oauth:hover {
   background: #efefef;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
 }
 
 /* Divider + switch text */
@@ -274,4 +278,3 @@ body.light-mode .switch-text .switch-link {
 body.light-mode .switch-text .switch-link:hover {
   color: #e26000;
 }
-

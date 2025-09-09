@@ -14,7 +14,7 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
 
   // Check if token exists in localStorage
-  useEffect(()=>{
+  useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) setLoggedIn(true);
   }, []);
@@ -22,23 +22,23 @@ function App() {
   return (
     <div className="app-container">
       <main className="app-main">
-        <NavBar onOpenAuth={()=> setAuthOpen(true)} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn}/>
+        <NavBar onOpenAuth={() => setAuthOpen(true)} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} />
         {isLoggedIn ? (
-          <><Dashboard/></>
-        ):(
+          <><Dashboard /></>
+        ) : (
           <>
-            <WelcomeSection onOpenAuth={()=> setAuthOpen(true)}/>
-            <FeaturesGrid/>
+            <WelcomeSection onOpenAuth={() => setAuthOpen(true)} />
+            <FeaturesGrid />
           </>
         )}
-        <Footer/>
+        <Footer />
 
         {/* AuthModal only when logged out */}
         {!isLoggedIn && (
           <AuthModal
             isOpen={isAuthOpen}
             onClose={() => setAuthOpen(false)}
-            onLoggedInSuccess={()=>{
+            onLoggedInSuccess={() => {
               setLoggedIn(true);
               setAuthOpen(false);
             }}
