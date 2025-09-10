@@ -1,5 +1,8 @@
 # INFLUX-UI-UG-1
 
+## To run the backend and frontend simultanously:
+-  Open a terminal in root directory and run: `npm run start:all`
+
 ## Team members
 - Christina Nguyen a1797406
 - Kriti Aggarwal a1881175
