@@ -752,15 +752,29 @@ body.light-mode .selected-field {
   color: #3182ce;
 }
 
-body.light-mode .drag-drop-area {
-  border-color: rgba(203, 213, 225, 0.6);
-  background: rgba(248, 250, 252, 0.6);
-}
-
 body.light-mode .drag-drop-area:hover,
 body.light-mode .drag-drop-area.drag-over {
   border-color: #3182ce;
   background: rgba(49, 130, 206, 0.05);
+}
+
+.selected-field-item .btn-danger:hover {
+  background: #c53030;
+}
+
+body.light-mode .drag-drop-area.drag-over {
+  background: #e3eafc;
+  border-color: #2563eb;
+}
+
+.selected-field-item .btn-danger {
+  background: #e53e3e;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  padding: 0 8px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 body.light-mode .chart-container {
@@ -789,6 +803,10 @@ body.light-mode .nav-logout-btn:hover,
 body.light-mode .big-login-btn:hover {
   background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%) !important;
   color: #fff !important;
+}
+
+body.light-mode .btn-primary:hover {
+  box-shadow: 0 8px 25px rgba(49, 130, 206, 0.35) !important; /* darker blue for light mode */
 }
 
 body.light-mode .card-title,
@@ -917,8 +935,17 @@ body.light-mode .chart-container {
   background: rgba(255, 193, 7, 0.3);
 }
 
+body.light-mode .field-type {
+  background: #2563eb !important; /* darker blue */
+  color: #fff !important;
+}
+body.light-mode .field-type.tag {
+  background: #b7791f !important; /* darker gold/yellow */
+  color: #fff !important;
+}
+
 .drag-drop-area {
-  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border: 2px dashed #fea94f !important; /* orange for dark mode */
   border-radius: 12px;
   padding: 50px;
   text-align: center;
@@ -929,7 +956,14 @@ body.light-mode .chart-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: background 0.2s;
   justify-content: center;
+}
+
+body.light-mode .drag-drop-area {
+  border-color: rgba(203, 213, 225, 0.6);
+  background: rgba(248, 250, 252, 0.6);
+  border: 2px dashed #3182ce !important; /* blue for light mode */
 }
 
 .drag-drop-area:hover,
@@ -983,7 +1017,7 @@ body.light-mode .chart-container {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+  box-shadow: 0 8px 25px rgba(254, 122, 0, 0.35) !important; /* dark orange for dark mode */
 }
 
 .btn-secondary {

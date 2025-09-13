@@ -49,7 +49,7 @@ export default function DataSource({ onBucketSelect, onMeasurementSelect }) {
     }
     // main return with dropdowns for bucket and measurement selection
     return (
-        <div className="card">
+        <div className="card data-source-card">
             <div className="card-title">Data Source</div>
             <div className="form-group">
                 <label>Bucket</label>

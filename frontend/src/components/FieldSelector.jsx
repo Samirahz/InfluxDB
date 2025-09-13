@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function FieldSelector({ bucket, measurement }) {
+export default function FieldSelector({ bucket, measurement, onFieldDragStart }) {
     // variables search, fields, and filtered fields
     const [search, setSearch] = useState("");
     const [fields, setFields] = useState([]);
@@ -36,7 +36,15 @@ export default function FieldSelector({ bucket, measurement }) {
             </div>
             <div className="available-fields">
                 {filteredFields.map((field, index) => (
-                    <div key={index} className="field-item" draggable="true">
+                    <div
+                        key={index}
+                        className="field-item"
+                        draggable="true"
+                        onDragStart={e => {
+                            e.dataTransfer.setData("application/json", JSON.stringify(field));
+                            if (onFieldDragStart) onFieldDragStart(field);
+                        }}
+                    >
                         <span className={`field-type ${field.type === "TAG" ? "tag" : ""}`}>
                             {field.type}
                         </span>
