@@ -451,9 +451,6 @@ body {
   color: #a0a0a0;
 }
 
-
-
-
 /* === LIGHT MODE === */
 
 /* BODY */
@@ -516,8 +513,7 @@ body.light-mode .welcome-subtitle {
 body.light-mode .feature-card,
 body.light-mode .login-prompt,
 body.light-mode .card,
-body.light-mode .dashboard-tabs,
-body.light-mode .code-panel {
+body.light-mode .dashboard-tabs {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(226, 232, 240, 0.6);
@@ -525,6 +521,29 @@ body.light-mode .code-panel {
     0 4px 6px rgba(0, 0, 0, 0.05),
     0 10px 25px rgba(0, 0, 0, 0.08),
     0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+/* --- Light mode: code panel for flux code --- */
+body.light-mode .code-panel {
+  background: #f3f6fa !important;
+  color: #1a202c !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+body.light-mode .code {
+  color: #2d3748 !important;
+}
+
+body.light-mode .syntax-keyword {
+  color: #2563eb !important;
+}
+
+body.light-mode .syntax-string {
+  color: #b7791f !important;
+}
+
+body.light-mode .syntax-function {
+  color: #3182ce !important;
 }
 
 body.light-mode .login-prompt h3,
@@ -1356,4 +1375,23 @@ input:checked+.toggle-slider:hover {
 .query-action-btn:hover {
   border-color: #fe954f;
   color: #fe954f;
+}
+
+/* --- Light mode: toggle switch for flux code --- */
+body.light-mode .toggle-slider {
+  background-color: #a9b9cd !important;
+  border: 1px solid #9cb1cb !important;
+}
+
+body.light-mode input:checked + .toggle-slider {
+  background-color: #3182ce !important;
+  border-color: #3182ce !important;
+}
+
+body.light-mode .toggle-slider:before {
+  background-color: #fff !important;
+}
+
+body.light-mode input:checked + .toggle-slider:before {
+  background-color: #fff !important;
 }
