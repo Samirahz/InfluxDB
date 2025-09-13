@@ -3,7 +3,10 @@ InfluxDB UI is a custom user interface application for InfluxDB with seamless in
 The purpose of this application is to bridge the gap between data collection and data visualisation, ensuring simplified management of InfluxDB database, easy intergation with Grafana, secure and efficient interaction with time-series database, and a streamline developer and user experience. 
 
 ## Features
-- 
+- Integrated with Grafana
+- Multiple dashbaord tabs
+- Toggle option for light and dark mode
+-  
 
 ## Tech Stack
 - Framework: React
