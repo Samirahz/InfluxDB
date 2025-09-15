@@ -3,11 +3,11 @@
 ## Table of Contents 
 - [Tool Description](#tool-description)
 - [Features](#features)
-- [Tech Stack](#teck-stack)
+- [Tech Stack](#tech-stack)
 - [Installation and Setup](#installation-and-setup)
 - [Files Included](#files-included)
-- [Contributions](#contributions)
-- [Acknowledgements](#acknowledgements)
+- [Contributors](#contributors)
+- [Acknowledgements](#Acknowledgements)
 
 ## Tool Description
 InfluxDB UI is a custom user interface application for InfluxDB with seamless integration with Grafana. This user-friendly platform simplifies interaction with real-time data for managing, quering, and visualising metrics. 
@@ -54,5 +54,5 @@ npm run start:all
 - Thi Phuong Thao Truong a1904431
 - Thuy Linh Nguyen a1868677
 
-## Aknowledgements
+## Acknowledgements
 Pull requests, suggestions, and bug reports are welcome. For significant contributions, please open an issue first to discuss the changes.
