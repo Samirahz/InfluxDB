@@ -25,10 +25,22 @@ The purpose of this application is to bridge the gap between data collection and
 
 ## Installation and Setup
 Complete the following steps to install and setup the InfluxDB UI.
-1. Clone this repository to your local machine: `git clone https://github.cs.adelaide.edu.au/a1881053/INFLUX-UI-UG-1.git`
-2. Navigate to the root directory: `cd INFLUX-UI-UG-1`
-3. Run the following command to install the necessary dependencies: `npm install`
-4. To launch the application, run: `npm run start:all`
+### 1. Clone this repository to your local machine
+```bash
+git clone https://github.cs.adelaide.edu.au/a1881053/INFLUX-UI-UG-1.git
+```
+### 2. Navigate to the root directory 
+```bash
+cd INFLUX-UI-UG-1
+```
+## 3. Install the necessary dependencies
+```bash
+npm install
+```
+4. Launch the application
+```bash
+npm run start:all
+```
 
 ## Files Included
 - to be added
