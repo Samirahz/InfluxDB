@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="footer-links">
           {/* Use a real link if available, otherwise use a button */}
           <button className="footer-link-btn" type="button" tabIndex={0}>Docs</button>
-          <a href="https://github.cs.adelaide.edu.au/a1881053/INFLUX-UI-UG-" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://github.cs.adelaide.edu.au/a1881053/INFLUX-UI-UG-1" target="_blank" rel="noopener noreferrer">GitHub</a>
           <button className="footer-link-btn" type="button" tabIndex={0}>Support</button>
           <button className="footer-link-btn" type="button" tabIndex={0}>Privacy</button>
         </div>

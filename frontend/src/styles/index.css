@@ -361,7 +361,8 @@ body {
 /* Prevent grid reflow when inputs have long content */
 .query-section {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr)); /* allow columns to shrink */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* allow columns to shrink */
   gap: 24px;
   align-items: start;
 }
@@ -374,18 +375,23 @@ body {
 
 /* Data Source: keep controls from expanding the card */
 .data-source-card {
-  min-height: 220px; /* from earlier fix; adjust as needed */
+  min-height: 220px;
+  /* from earlier fix; adjust as needed */
 }
+
 .data-source-card .form-group {
   min-width: 0;
-  overflow: hidden; /* clip any accidental overflow */
+  overflow: hidden;
+  /* clip any accidental overflow */
 }
+
 .data-source-card select {
   width: 100%;
   max-width: 100%;
   min-width: 0;
   overflow: hidden;
-  text-overflow: ellipsis; /* visual guard; some browsers ignore on select but harmless */
+  text-overflow: ellipsis;
+  /* visual guard; some browsers ignore on select but harmless */
   white-space: nowrap;
 }
 
@@ -393,7 +399,8 @@ body {
 .left-stack {
   display: grid;
   grid-auto-rows: min-content;
-  gap: 24px; /* space between the two cards */
+  gap: 24px;
+  /* space between the two cards */
 }
 
 /* VISUALISATION SECTION */
@@ -471,12 +478,15 @@ body {
   padding: 0;
   transition: color 0.2s;
 }
+
 .footer-link-btn:hover {
   color: #ffffff;
 }
+
 body.light-mode .footer-link-btn {
   color: #6b7280;
 }
+
 body.light-mode .footer-link-btn:hover {
   color: #3182ce;
 }
@@ -883,6 +893,73 @@ body.light-mode .chart-container {
   background: linear-gradient(135deg, #e3eafc 0%, #f8fafc 100%) !important;
   color: #1e293b !important;
   border: 1px solid #cbd5e1;
+}
+
+/* Add to index.css */
+.error-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(30, 30, 40, 0.55);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-modal {
+  background: #fff;
+  color: #c53030;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  min-width: 320px;
+  max-width: 90vw;
+  padding: 24px 28px;
+  border: 2px solid #e53e3e;
+  animation: modal-pop 0.2s;
+}
+
+@keyframes modal-pop {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.error-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.error-modal-close {
+  background: none;
+  border: none;
+  color: #e53e3e;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+
+.error-modal-close:hover {
+  color: #c53030;
+}
+
+.error-modal-body {
+  font-size: 1rem;
+  color: #c53030;
+  line-height: 1.5;
 }
 
 /* Optionally, for better contrast, you can darken the chart container a bit more: */
@@ -1582,7 +1659,7 @@ body.light-mode select option {
 
 body.light-mode .drop-zone {
   border: 2px dashed #3182ce !important;
-  background: rgba(248,250,252,0.7);
+  background: rgba(248, 250, 252, 0.7);
 }
 
 .drop-hint {
@@ -1605,7 +1682,7 @@ body.light-mode .drop-zone {
   padding: 6px 8px;
   border-radius: 8px;
   margin-bottom: 6px;
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
   min-width: 0;
 }
 
@@ -1621,7 +1698,8 @@ body.light-mode .drop-zone {
 
 .filter-row .btn-danger,
 .chip-close {
-  background: #e53e3e !important; /* red button*/
+  background: #e53e3e !important;
+  /* red button*/
   color: #fff !important;
   border: none;
   font-size: 1rem;
@@ -1630,6 +1708,7 @@ body.light-mode .drop-zone {
   cursor: pointer;
   transition: background 0.2s;
 }
+
 .filter-row .btn-danger:hover,
 .chip-close:hover {
   background: #c53030 !important;
@@ -1729,6 +1808,7 @@ body.light-mode .checkbox-inline {
     flex-direction: column;
     align-items: stretch;
   }
+
   .filter-row .chip,
   .filter-row .logic-select,
   .filter-row .op-select,

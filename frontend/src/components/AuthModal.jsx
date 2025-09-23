@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ErrorModal from "./ErrorModal";
 import grafanaLogo from "../images/grafana-logo.png";
 import influxLogo from "../images/influxdb-logo.png";
 import "../styles/Auth.css";
@@ -12,6 +13,7 @@ export default function AuthModal({ isOpen, onClose }) {
         grafanaOrgId: "",
     });
     const [message, setMessage] = useState("");
+    const [errorModalOpen, setErrorModalOpen] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,7 +34,7 @@ export default function AuthModal({ isOpen, onClose }) {
                     influxOrg: formData.influxOrg,
                 };
             } else if (mode === "grafana-login") {
-                url  = "http://localhost:5001/api/auth/login/grafana";
+                url = "http://localhost:5001/api/auth/login/grafana";
                 body = {
                     grafanaToken: formData.grafanaToken,
                     grafanaOrgId: formData.grafanaOrgId,
@@ -55,10 +57,12 @@ export default function AuthModal({ isOpen, onClose }) {
                 window.location.reload();
             } else {
                 setMessage(data.error || data.message || "Login failed");
+                setErrorModalOpen(true);
             }
         } catch (error) {
             console.error(error);
             setMessage("Server error, please try again");
+            setErrorModalOpen(true);
         }
     };
 
@@ -93,36 +97,36 @@ export default function AuthModal({ isOpen, onClose }) {
                     </button>
                 </form>
             );
-            }
+        }
 
-            if (mode === "grafana-login") {
-                return (
-                    <form onSubmit={handleLogin} className="auth-form">
-                        <div className="form-group">
-                            <label>Grafana Service Account Token</label>
-                            <input
-                                type="text"
-                                name="grafanaToken"
-                                value={formData.grafanaToken}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Grafana Org ID</label>
-                            <input
-                                type="text"
-                                name="grafanaOrgId"
-                                value={formData.grafanaOrgId || ""}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <button type="submit" className="btn-auth">
-                            Log In
-                        </button>
-                    </form>
-                );
+        if (mode === "grafana-login") {
+            return (
+                <form onSubmit={handleLogin} className="auth-form">
+                    <div className="form-group">
+                        <label>Grafana Service Account Token</label>
+                        <input
+                            type="text"
+                            name="grafanaToken"
+                            value={formData.grafanaToken}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Grafana Org ID</label>
+                        <input
+                            type="text"
+                            name="grafanaOrgId"
+                            value={formData.grafanaOrgId || ""}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="btn-auth">
+                        Log In
+                    </button>
+                </form>
+            );
         }
     }
 
@@ -130,36 +134,46 @@ export default function AuthModal({ isOpen, onClose }) {
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay">
-            <div className="modal">
-                <button className="modal-close" onClick={onClose}>
-                x
-                </button>
+        <>
+            {isOpen && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <button className="modal-close" onClick={onClose}>
+                            x
+                        </button>
 
-                <h2>
-                    {mode === "grafana-login" ? "Login with Grafana" : "Login with InfluxDB"}
-                </h2>
+                        <h2>
+                            {mode === "grafana-login" ? "Login with Grafana" : "Login with InfluxDB"}
+                        </h2>
 
-                {renderForm()}
+                        {renderForm()}
+                        {/* remove this line after modal starts working */}
+                        {/* <div>{message && <p className="auth-message">{message}</p>}</div> */}
 
-                <div>{message && <p className="auth-message">{message}</p>}</div>
+                        <div className="divider">or</div>
 
-                <div className="divider">or</div>
-
-                <div className="oauth-buttons">
-                    {mode === "grafana-login" ?
-                    (<button className="btn-oauth influx" onClick={() => setMode("influx-login")}>
-                        <img src={influxLogo} alt="InfluxDB" className="oauth-logo" />
-                        Log in with InfluxDB
-                    </button>)
-                    :
-                    (<button className="btn-oauth grafana" onClick={() => setMode("grafana-login")}>
-                        <img src={grafanaLogo} alt="Grafana" className="oauth-logo" />
-                        Log in with Grafana
-                    </button>)
-                    }
+                        <div className="oauth-buttons">
+                            {mode === "grafana-login" ?
+                                (<button className="btn-oauth influx" onClick={() => setMode("influx-login")}>
+                                    <img src={influxLogo} alt="InfluxDB" className="oauth-logo" />
+                                    Log in with InfluxDB
+                                </button>)
+                                :
+                                (<button className="btn-oauth grafana" onClick={() => setMode("grafana-login")}>
+                                    <img src={grafanaLogo} alt="Grafana" className="oauth-logo" />
+                                    Log in with Grafana
+                                </button>)
+                            }
+                        </div>
+                    </div>
                 </div>
-            </div>
-    </div>
+            )}
+            {errorModalOpen && (
+                <ErrorModal
+                    message={message}
+                    onClose={() => setErrorModalOpen(false)}
+                />
+            )}
+        </>
     );
 }
