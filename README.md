@@ -61,7 +61,8 @@ INFLUX-UI-UG-1/
 ### Prerequisites
 - Node.js
 - npm
-- Access to InfluxDB and Grafana instances
+- Access to InfluxDB and Grafana instances (i.e. login credentials with InfluxDB and Grafana)
+
 Complete the following steps to install and setup the InfluxDB UI.
 ### 1. Clone this repository to your local machine
 ```bash
