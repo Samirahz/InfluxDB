@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 5001;
 const influxRouter = require('./routes/influx');
-const {router: authRouter} = require('./routes/auth');
+const { router: authRouter } = require('./routes/auth');
 const grafanaRouter = require('./routes/grafana');
 const cookieParser = require('cookie-parser'); // add
 
@@ -13,7 +13,7 @@ app.use(cors(({
     credentials: true
 })));
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 console.log('Loaded auth')
 console.log('GRAFANA_URL:', process.env.GRAFANA_URL || '(undefined)'); // quick sanity check

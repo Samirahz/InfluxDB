@@ -23,8 +23,8 @@ router.get('/measurements/:bucket', authMiddleware, async (req, res) => {
     const bucket = req.params.bucket;
     const client = getClientFromUser(req.user);
 
-    if (!client){
-      console.error("Buckets route missing client", {client});
+    if (!client) {
+      console.error("Buckets route missing client", { client });
       return res.status(400).json({ error: "No Influx client available" });
     }
 
@@ -61,7 +61,7 @@ router.get('/measurements/:bucket', authMiddleware, async (req, res) => {
 
   } catch (error) {
     console.error('Error fetching measurements:', error);
-    res.status(500).json({ error: 'Failed to fetch measurements'});
+    res.status(500).json({ error: 'Failed to fetch measurements' });
   }
 });
 
@@ -107,7 +107,7 @@ router.get('/fields/:bucket/:measurement', authMiddleware, async (req, res) => {
     res.json([...fields, ...tags]);
   } catch (error) {
     console.error('Error fetching fields:', error);
-    res.status(500).json({ error: 'Failed to fetch fields'});
+    res.status(500).json({ error: 'Failed to fetch fields' });
   }
 });
 
@@ -120,21 +120,21 @@ router.get('/buckets', authMiddleware, async (req, res) => {
     const client = getClientFromUser(req.user);
     // const org = client.org;
 
-    if (!client){
-      console.error("Buckets route missing client", {client});
+    if (!client) {
+      console.error("Buckets route missing client", { client });
     }
 
     console.log("/buckets route hit with org", client.org);
 
     const bucketsAPI = client.bucketsAPI;
-    const response = await bucketsAPI.getBuckets({org: client.org});
+    const response = await bucketsAPI.getBuckets({ org: client.org });
     console.log("Buckets API raw response:", response);
-    const buckets = (response?.buckets || []).map(b => ({id: b.id, name: b.name,}));
+    const buckets = (response?.buckets || []).map(b => ({ id: b.id, name: b.name, }));
     res.json(buckets);
 
   } catch (error) {
     console.error('Error fetching buckets:', error);
-    res.status(500).json({ error: 'Failed to fetch buckets', details: error.message});
+    res.status(500).json({ error: 'Failed to fetch buckets', details: error.message });
   }
 });
 
