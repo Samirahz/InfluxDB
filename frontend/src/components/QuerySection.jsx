@@ -6,7 +6,7 @@ import QueryBuilder from "./QueryBuilder";
 import SavedQueries from "./SavedQueries";
 import TimeControls from "./TimeControls";
 
-export default function QuerySection() {
+export default function QuerySection({ onExportToGrafana }) {
     // variables for selected bucket and measurement
     const [selectedBucket, setSelectedBucket] = useState("");
     const [selectedMeasurement, setSelectedMeasurement] = useState("");
@@ -73,49 +73,86 @@ export default function QuerySection() {
         setGroupBy(prev => prev.filter((_, i) => i !== index));
     };
 
+    // build the current state for saving or running query
+    const buildState = () => ({
+        bucket: selectedBucket,
+        measurement: selectedMeasurement,
+        fields: selectedFields,
+        filters,
+        groupBy,
+        aggregate,
+        windowEvery,
+        timePreset,
+        timeFrom,
+        timeTo,
+    });
+
+    // handler to run query and export to Grafana
+    const handleRunQuery = async () => {
+        const builderState = buildState();
+        if (!builderState.bucket || !builderState.measurement) {
+            alert("Select a bucket and measurement first.");
+            return;
+        }
+        // save current state to localStorage
+        localStorage.setItem("queryState", JSON.stringify(builderState));
+        try {
+            const res = await fetch("http://localhost:5001/api/grafana/dashboards/export", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${sessionStorage.getItem("accessToken") || ""}`,
+                },
+                body: JSON.stringify({ builderState }),
+            });
+            // expecting {url, uid, panelUrl, panelImageUrl} on success
+            const data = await res.json();
+            if (!res.ok) {
+                alert(data.error || "Failed to create Grafana panel");
+                return;
+            }
+            onExportToGrafana && onExportToGrafana({
+                url: data.url,
+                uid: data.uid,
+                panelUrl: data.panelUrl,
+                panelImageUrl: data.panelImageUrl,
+            });
+        } catch (e) {
+            console.error(e);
+            alert("Failed to contact Grafana. Check backend logs.");
+        }
+    };
+
+    // render
     return (
         <div className="query-section">
-            {/* 1st quarter: stack DataSource (top) + Time Controls (bottom) */}
             <div className="left-stack">
-                <DataSource
-                    onBucketSelect={setSelectedBucket}
-                    onMeasurementSelect={setSelectedMeasurement}
-                />
+                <DataSource onBucketSelect={setSelectedBucket} onMeasurementSelect={setSelectedMeasurement} />
                 <TimeControls
-                    timePreset={timePreset}
-                    onChangeTimePreset={setTimePreset}
-                    timeFrom={timeFrom}
-                    onChangeTimeFrom={setTimeFrom}
-                    timeTo={timeTo}
-                    onChangeTimeTo={setTimeTo}
-                    timezone={timezone}
-                    onChangeTimezone={setTimezone}
+                    timePreset={timePreset} onChangeTimePreset={setTimePreset}
+                    timeFrom={timeFrom} onChangeTimeFrom={setTimeFrom}
+                    timeTo={timeTo} onChangeTimeTo={setTimeTo}
+                    timezone={timezone} onChangeTimezone={setTimezone}
                 />
             </div>
 
-            {/* 2nd quarter: Available Fields & Tags */}
             <FieldSelector
                 bucket={selectedBucket}
                 measurement={selectedMeasurement}
                 onFieldDragStart={field => window.draggedField = field}
             />
 
-            {/* 3rd quarter: Query Builder */}
             <QueryBuilder
-                // fields
                 selectedFields={selectedFields}
                 onFieldDrop={handleFieldDrop}
                 onFieldRemove={handleFieldRemove}
-                // filters
                 filters={filters}
                 onAddFilter={handleAddFilter}
                 onUpdateFilter={handleUpdateFilter}
                 onRemoveFilter={handleRemoveFilter}
-                // group by
                 groupBy={groupBy}
                 onGroupDrop={handleGroupDrop}
                 onRemoveGroup={handleRemoveGroup}
-                // aggregate/window/math/refresh
                 aggregate={aggregate}
                 onChangeAggregate={setAggregate}
                 windowEvery={windowEvery}
@@ -128,9 +165,9 @@ export default function QuerySection() {
                 onChangeAutoRefresh={setAutoRefresh}
                 refreshInterval={refreshInterval}
                 onChangeRefreshInterval={setRefreshInterval}
+                onRunQuery={handleRunQuery} // added
             />
 
-            {/* 4th quarter: Saved Queries */}
             <SavedQueries />
         </div>
     );

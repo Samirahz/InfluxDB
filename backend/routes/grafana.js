@@ -177,14 +177,9 @@ router.post('/dashboards/export', auth, async (req, res) => {
     if (!grafanaToken) return res.status(401).json({ error: 'Not logged in with Grafana' });
 
     // ensure datasource first
-    const ensure = await fetch(`${grafanaUrl}/api/datasource/uid`, { headers: { Authorization: `Bearer ${grafanaToken}` } }).catch(() => null);
-    // above call only to check API; real ensure below:
     const ensureRes = await fetch(`${req.protocol}://${req.get('host')}/api/grafana/datasource/ensure`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: req.headers.authorization || '',
-      },
+      headers: { 'Content-Type': 'application/json', Authorization: req.headers.authorization || '' },
       body: JSON.stringify({ defaultBucket: req.body?.builderState?.bucket }),
     });
     const ensureJson = await ensureRes.json();
@@ -196,30 +191,22 @@ router.post('/dashboards/export', auth, async (req, res) => {
     const flux = req.body.flux || buildFluxFromState(req.body.builderState || {});
     const title = req.body.title || `Influx ${influxOrg} Dashboard`;
     const panelTitle = req.body.panelTitle || 'Influx Panel';
+    const panelId = 1;
 
     const dashboard = {
       title,
-      uid: undefined, // let Grafana assign
+      uid: undefined,
       timezone: 'browser',
       time: { from: 'now-1h', to: 'now' },
       panels: [
         {
-          id: 1,
+          id: panelId,
           title: panelTitle,
           type: 'timeseries',
           gridPos: { x: 0, y: 0, w: 24, h: 8 },
           datasource: { type: 'influxdb', uid: dsUid },
-          targets: [
-            {
-              refId: 'A',
-              query: flux,
-              queryType: 'flux',
-              datasource: { type: 'influxdb', uid: dsUid },
-            },
-          ],
-          options: {
-            legend: { displayMode: 'list', placement: 'bottom' },
-          },
+          targets: [{ refId: 'A', query: flux, queryType: 'flux', datasource: { type: 'influxdb', uid: dsUid } }],
+          options: { legend: { displayMode: 'list', placement: 'bottom' } },
           fieldConfig: { defaults: {}, overrides: [] },
         },
       ],
@@ -234,11 +221,17 @@ router.post('/dashboards/export', auth, async (req, res) => {
     const out = await resp.json().catch(() => ({}));
     if (!resp.ok) return res.status(502).json({ error: 'Failed to create dashboard', details: out });
 
+    const uid = out?.uid || out?.dashboard?.uid;
+    const orgId = req.user?.grafanaOrgId || '1';
+    const panelUrl = uid ? `${grafanaUrl}/d-solo/${uid}?orgId=${orgId}&panelId=${panelId}&kiosk&theme=dark` : undefined;
+    const panelImageUrl = uid ? `${grafanaUrl}/render/d-solo/${uid}?orgId=${orgId}&panelId=${panelId}&theme=dark&width=1100&height=500` : undefined;
+
     res.json({
       ok: true,
       url: out?.url ? `${grafanaUrl}${out.url}` : undefined,
-      uid: out?.uid || out?.dashboard?.uid,
-      slug: out?.slug,
+      uid,
+      panelUrl,
+      panelImageUrl,
     });
   } catch (e) {
     console.error('export dashboard error', e);
