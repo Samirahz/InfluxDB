@@ -1559,6 +1559,8 @@ input:checked+.toggle-slider:hover {
 .code {
   color: #e2e8f0;
   line-height: 1.5;
+  white-space: pre-wrap;       /* keep newlines and wrap long lines */
+  word-break: break-word;      /* avoid overflow on long tokens */
 }
 
 .syntax-keyword {

@@ -138,7 +138,7 @@ router.get('/buckets', authMiddleware, async (req, res) => {
   }
 });
 
-// Execute a flux query and return results
+// Execute a flux query and return results + timing
 router.post('/query', authMiddleware, async (req, res) => {
   try {
     const { query } = req.body;
@@ -152,9 +152,14 @@ router.post('/query', authMiddleware, async (req, res) => {
     }
 
     const queryApi = client.influxDB.getQueryApi(client.org);
+
+    // measure time precise, so user see real exec ms (close enough)
+    const start = process.hrtime.bigint();
     const result = await queryApi.collectRows(query);
-    
-    res.json({ results: result });
+    const end = process.hrtime.bigint();
+    const tookMs = Number(end - start) / 1e6;
+
+    res.json({ results: result, tookMs });
   } catch (error) {
     console.error('Error executing query:', error);
     res.status(500).json({ error: 'Failed to execute query', details: error.message });

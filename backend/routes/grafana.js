@@ -1,6 +1,80 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/authMiddleware');
+const crypto = require('crypto'); // added for ticket ids
+
+// in-memory tickets (simple, for prod pls replace with redis)
+// note: tickets expire quick so it safe-ish. not perfect but ok for now
+const tickets = new Map();
+function putTicket(data, ttlMs = 60_000) {
+  const id = (crypto.randomUUID?.() || crypto.randomBytes(16).toString('hex'));
+  const expireAt = Date.now() + ttlMs;
+  tickets.set(id, { ...data, expireAt });
+  setTimeout(() => tickets.delete(id), ttlMs).unref?.();
+  return id;
+}
+function takeTicket(id) {
+  const t = tickets.get(id);
+  if (!t) return null;
+  tickets.delete(id);
+  if (t.expireAt < Date.now()) return null;
+  return t;
+}
+
+// issue a short-lived render ticket for a panel image
+// note: client calls this with bearer jwt; response gives a backend url usable in <img src=...>
+router.post('/panel/ticket', auth, async (req, res) => {
+  try {
+    const { uid, panelId = 1, width = 1100, height = 500, theme = 'dark' } = req.body || {};
+    if (!uid) return res.status(400).json({ error: 'uid required' });
+
+    // stash only what the server needs, dont expose grafana token to browser
+    const payload = {
+      uid: String(uid),
+      panelId: Number(panelId) || 1,
+      width: Number(width) || 1100,
+      height: Number(height) || 500,
+      theme: theme === 'light' ? 'light' : 'dark',
+      grafanaUrl: (req.user?.grafanaUrl || process.env.GRAFANA_URL || '').trim().replace(/\/+$/, ''),
+      grafanaToken: req.user?.grafanaToken,
+      orgId: req.user?.grafanaOrgId || '1',
+    };
+
+    if (!payload.grafanaUrl || !payload.grafanaToken) {
+      return res.status(400).json({ error: 'grafana login missing in token' });
+    }
+
+    const id = putTicket(payload, 60_000); // 60s ttl
+    // this url is on our backend, so no extra headers or cookies needed by the <img>
+    res.json({ renderUrl: `/api/grafana/panel/render?id=${encodeURIComponent(id)}` });
+  } catch (e) {
+    res.status(500).json({ error: 'failed to issue ticket', details: e.message });
+  }
+});
+
+// consume ticket and stream the grafana panel image
+router.get('/panel/render', async (req, res) => {
+  try {
+    const id = String(req.query.id || '');
+    const t = takeTicket(id);
+    if (!t) return res.status(410).json({ error: 'ticket expired or invalid' });
+
+    const url = `${t.grafanaUrl}/render/d-solo/${encodeURIComponent(t.uid)}?orgId=${encodeURIComponent(t.orgId)}&panelId=${encodeURIComponent(t.panelId)}&theme=${t.theme}&width=${t.width}&height=${t.height}`;
+    const r = await fetch(url, { headers: { Authorization: `Bearer ${t.grafanaToken}` } });
+
+    if (!r.ok) {
+      const txt = await r.text().catch(() => '');
+      return res.status(502).json({ error: 'render failed', details: txt });
+    }
+
+    res.setHeader('Content-Type', r.headers.get('content-type') || 'image/png');
+    res.setHeader('Cache-Control', 'no-store');
+    const buf = Buffer.from(await r.arrayBuffer());
+    res.end(buf);
+  } catch (e) {
+    res.status(500).json({ error: 'render error', details: e.message });
+  }
+});
 
 // Build Flux from the builder state coming from the UI
 function buildFluxFromState(state) {
@@ -223,7 +297,10 @@ router.post('/dashboards/export', auth, async (req, res) => {
 
     const uid = out?.uid || out?.dashboard?.uid;
     const orgId = req.user?.grafanaOrgId || '1';
-    const panelUrl = uid ? `${grafanaUrl}/d-solo/${uid}?orgId=${orgId}&panelId=${panelId}&kiosk&theme=dark` : undefined;
+    // note: add refresh so panel auto-updates. 'kiosk' keeps ui minimal
+    const panelUrl = uid
+      ? `${grafanaUrl}/d-solo/${uid}?orgId=${orgId}&panelId=${panelId}&kiosk&theme=dark&refresh=10s`
+      : undefined;
     const panelImageUrl = uid ? `${grafanaUrl}/render/d-solo/${uid}?orgId=${orgId}&panelId=${panelId}&theme=dark&width=1100&height=500` : undefined;
 
     res.json({
