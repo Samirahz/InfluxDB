@@ -77,7 +77,7 @@ cd INFLUX-UI-UG-1
 ```bash
 npm install
 ```
-4. Create a .env file in `/backend/` with following content:
+4. Create a .env file in `/backend` with following content:
 ```bash
 DB_USER=yourname
 DB_HOST=localhost
@@ -106,6 +106,7 @@ npm run start:all
 - README.md - Project Documentation
 
 ## Usage Examples
+- You have three login options: *InfluxDB only*, *Grafana only*, and *login via InlfuxDB and Grafana*.
 - to be added
 
 ## Troubleshooting Guide
