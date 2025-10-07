@@ -106,12 +106,24 @@ npm run start:all
 - README.md - Project Documentation
 
 ## Usage Examples
-- You have three login options: *InfluxDB only*, *Grafana only*, and *login via InlfuxDB and Grafana*.
-- to be added
+You have three login options: 
+1. **_Influx only_**
+- Add your *InfluxDB URL*, *Organisation name*, and *access token* in the login form.
+- You will be directed to the Influx dashboard, where you can view and query time-series data.
+2. **_Grafana only_**
+- Use your *Service Account Token*, *Grafana Organisation ID*, and *Grafana URL* to login.
+- The application will fetch and display your Grafana dashbaords once logged in.
+3. **_login via InlfuxDB and Grafana_**
+- Use your *InfluxDB Token* and *Grafana Token* to login.
+- This option enables full integration and cross-visualisation between your InfluxDB data and Grafana dashboards.
+- This is ideal for users managing metrics and visualisations in a single workspace.
+
 
 ## Troubleshooting Guide
-- Issues with dependencies not fully installing -> Delete `node_modules/` and `package-lock.json`, then run `npm install` again.
-- to be added
+- **Issues with dependencies missing or not fully installing**: Delete `node_modules/` and `package-lock.json`, then run `npm install` again.
+- **Either InfluxDB or Grafana connection failing**: This is due to *incorrect or invalid API token, URL, or organisation name*. Double check your login credentials and if needed, generate a new token, and update your .env.
+- **Environment variables not loading**: this is due to missing or invalid *.env*. Ensure your *.env* file is inside `/backend` and formatted correctly.
+- **Login shows *server error***: this is caused by *backend* not running or crashing. Check the terminal for backend errors and install any missing packages.
 
 ## Contributors
 This project was developed by students from the InfluxDB UG-1 group:
