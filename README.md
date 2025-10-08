@@ -77,7 +77,7 @@ cd INFLUX-UI-UG-1
 ```bash
 npm install
 ```
-4. Create a .env file in `/backend` with following content:
+4. Create a **.env** file in `/backend` with following content:
 ```bash
 DB_USER=yourname
 DB_HOST=localhost
@@ -126,7 +126,7 @@ You have three login options:
 - **Login shows *server error***: this is caused by *backend* not running or crashing. Check the terminal for backend errors and install any missing packages.
 
 ## Contributors
-This project was developed by students from the InfluxDB UG-1 group:
+This project was developed by students of the InfluxDB UG-1 group:
 - Christina Nguyen a1797406
 - Kriti Aggarwal a1881175
 - Lakshya Patel a1885152
