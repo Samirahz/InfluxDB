@@ -8,6 +8,7 @@
     "start:all": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
   },
   "dependencies": {
+    "cookie-parser": "^1.4.7",
     "influx": "^5.11.0"
   }
 }
