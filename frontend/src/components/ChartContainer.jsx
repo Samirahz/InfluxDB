@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
-export default function ChartContainer({ activeTab, chartType, grafanaPanel }) {
+export default function ChartContainer({ chartType, grafanaPanel }) {
     // tiny state to drive iframe fallback
     const [iframeError, setIframeError] = useState(false); // if embed fail we show image instead (yeh it simple)
-    // removed iframeLoaded (was unused, eslint sad)
 
     // new: backend render url using short-lived ticket
     const [renderUrl, setRenderUrl] = useState(""); // will hold server proxy img url
@@ -60,38 +59,31 @@ export default function ChartContainer({ activeTab, chartType, grafanaPanel }) {
 
     return (
         <div className="chart-container">
-            {activeTab === "chart" ? (
-                grafanaPanel?.panelUrl ? (
-                    <div className="grafana-embed">
-                        {/* try iframe first (interactive). if blocked -> show server proxied image. note: allow_embedding not required for image */}
-                        {!iframeError ? (
-                            <iframe
-                                key={iframeKey}
-                                title="Grafana Panel"
-                                src={grafanaPanel.panelUrl}
-                                width="100%"
-                                height="100%"
-                                frameBorder="0"
-                                onError={() => setIframeError(true)}
-                            />
-                        ) : (
-                            <img
-                                alt="grafana panel render"
-                                src={renderUrl}
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
-                        )}
-                    </div>
-                ) : (
-                    <div className="chart-placeholder">
-                        📈 {chartType.toUpperCase()} Visualization - Full Width View
-                        <div>Run a query to render with Grafana</div>
-                    </div>
-                )
+            {grafanaPanel?.panelUrl ? (
+                <div className="grafana-embed">
+                    {/* try iframe first (interactive). if blocked -> show server proxied image. note: allow_embedding not required for image */}
+                    {!iframeError ? (
+                        <iframe
+                            key={iframeKey}
+                            title="Grafana Panel"
+                            src={grafanaPanel.panelUrl}
+                            width="100%"
+                            height="100%"
+                            frameBorder="0"
+                            onError={() => setIframeError(true)}
+                        />
+                    ) : (
+                        <img
+                            alt="grafana panel render"
+                            src={renderUrl}
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                    )}
+                </div>
             ) : (
-                <div className="table-placeholder">
-                    📊 Table View of Results
-                    <div>(dummy table for now)</div>
+                <div className="chart-placeholder">
+                    📈 {chartType.toUpperCase()} Visualization - Full Width View
+                    <div>Run a query to render with Grafana</div>
                 </div>
             )}
         </div>
