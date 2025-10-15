@@ -1322,12 +1322,12 @@ body.light-mode .field-type.tag {
   border: 2px dashed #fea94f !important;
   /* orange for dark mode */
   border-radius: 12px;
-  padding: 50px;
+  padding: 10px 30px;
   text-align: center;
   background: rgba(255, 255, 255, 0.05);
   transition: all 0.3s ease;
   cursor: pointer;
-  min-height: 380px;
+  min-height: 220px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1388,6 +1388,7 @@ body.light-mode .drag-drop-area {
 
 .btn-primary {
   background: linear-gradient(135deg, #fe954f 0%, #fe7b00 100%);
+  padding: 10px 13px;
   color: white;
 }
 
@@ -1399,6 +1400,7 @@ body.light-mode .drag-drop-area {
 
 .btn-secondary {
   background: rgba(255, 255, 255, 0.2);
+  padding: 10px 13px;
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
@@ -1410,7 +1412,7 @@ body.light-mode .drag-drop-area {
 
 .btn-group {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   margin-top: 16px;
 }
 
