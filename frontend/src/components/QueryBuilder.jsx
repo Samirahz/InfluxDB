@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function QueryBuilder({
     selectedFields, onFieldDrop, onFieldRemove,
     filters, onAddFilter, onUpdateFilter, onRemoveFilter,
@@ -6,8 +8,9 @@ export default function QueryBuilder({
     windowEvery, onChangeWindowEvery, createEmpty, onChangeCreateEmpty,
     mathExpr, onChangeMathExpr,
     autoRefresh, onChangeAutoRefresh, refreshInterval, onChangeRefreshInterval,
-    onRunQuery,    onSaveQuery,
-    onResetQuery  
+    onRunQuery, onSaveQuery,
+    onResetQuery,
+    onAddSeriesClause 
 }) {
     // handle drop event (selected fields)
     const handleDrop = (e) => {
@@ -33,9 +36,83 @@ export default function QueryBuilder({
         if (data && onGroupDrop) onGroupDrop(JSON.parse(data));
     };
 
+    // Quick Series Builder local state
+    const [pendingField, setPendingField] = useState(null);
+    const [pendingTag, setPendingTag] = useState({ key: null, value: null });
+
+    const handleDropSeriesField = (e) => {
+        e.preventDefault();
+        const data = e.dataTransfer.getData("application/json");
+        if (!data) return;
+        const payload = JSON.parse(data);
+        if (payload.type === "FIELD") {
+            setPendingField(payload.name);
+        }
+    };
+    const handleDropSeriesTagValue = (e) => {
+        e.preventDefault();
+        const data = e.dataTransfer.getData("application/json");
+        if (!data) return;
+        const payload = JSON.parse(data);
+        if (payload.type === "TAG_VALUE") {
+            setPendingTag({ key: payload.key, value: payload.value });
+        }
+    };
+
+    const canAddSeries = !!(pendingField && pendingTag.key && pendingTag.value);
+
     return (
         <div className="card query-builder-card">
             <div className="card-title">Query Builder</div>
+
+            {/* Quick Series Builder (drag a Field and a Tag Value, then add) */}
+            <div className="form-group">
+                <label className="form-label">Quick Series Builder</label>
+                <div className="controls-row">
+                    <div
+                        className="drag-drop-area"
+                        onDragOver={e => e.preventDefault()}
+                        onDrop={handleDropSeriesField}
+                        title="Drop a Field here (e.g. humidity)"
+                        style={{ minHeight: 48 }}
+                    >
+                        <div style={{ color: pendingField ? "#0a0" : "#888", fontSize: 13 }}>
+                            {pendingField ? `Field: ${pendingField}` : "Drop Field"}
+                        </div>
+                    </div>
+                    <div
+                        className="drag-drop-area"
+                        onDragOver={e => e.preventDefault()}
+                        onDrop={handleDropSeriesTagValue}
+                        title="Drop a Tag Value here (e.g. device=TLM0201)"
+                        style={{ minHeight: 48 }}
+                    >
+                        <div style={{ color: pendingTag.value ? "#0a0" : "#888", fontSize: 13 }}>
+                            {pendingTag.value ? `Tag: ${pendingTag.key} = ${pendingTag.value}` : "Drop Tag Value"}
+                        </div>
+                    </div>
+                    <button
+                        className="btn btn-secondary"
+                        disabled={!canAddSeries}
+                        onClick={() => {
+                            if (!canAddSeries) return;
+                            onAddSeriesClause && onAddSeriesClause({
+                                fieldName: pendingField,
+                                tagKey: pendingTag.key,
+                                tagValue: pendingTag.value
+                            });
+                            // reset slots
+                            setPendingField(null);
+                            setPendingTag({ key: null, value: null });
+                        }}
+                    >
+                        Add series
+                    </button>
+                </div>
+                <div className="muted" style={{ marginTop: 6, fontSize: 12 }}>
+                    Tip: Add multiple series. They will be combined as (tag=value AND _field=field) OR …
+                </div>
+            </div>
 
             {/* Selected fields */}
             <div className="form-group">

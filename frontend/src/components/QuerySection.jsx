@@ -158,20 +158,37 @@ export default function QuerySection({ dashboardId, onExportToGrafana, onQuerySt
             ? `|> filter(fn: (r) => r._field =~ /${selectedFieldNames.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')}/)`
             : '';
 
+        const toFluxOp = (op) => (op === '=' ? '==' : op);
+
+        const mkColRef = (f) => {
+            if (f.fieldType === 'FIELD') return 'r._field';
+            // tag keys may contain chars; always use bracket notation
+            return `r[${JSON.stringify(f.fieldName)}]`;
+        };
+
         const filterParts = (st.filters || []).map((f, idx) => {
             const op = f.operator || '=';
-            const col = f.fieldType === 'FIELD' ? '_field' : f.fieldName;
-            const value = (op === 'regex')
+            const colRef = mkColRef(f);
+            const valueLit = (op === 'regex')
                 ? new RegExp(f.value || '').toString()
                 : JSON.stringify(f.value ?? '');
-            const expr = op === 'regex'
-                ? `r.${col} =~ ${value}`
-                : op === 'contains' || op === '!contains'
-                    ? `${op === 'contains' ? '' : '!'}contains(value: r.${col}, set: [${JSON.stringify(f.value || '')}])`
-                    : `r.${col} ${op} ${value}`;
+
+            let expr;
+            if (op === 'regex') {
+                expr = `${colRef} =~ ${valueLit}`;
+            } else if (op === 'contains' || op === '!contains') {
+                // substring contains using strings.containsStr
+                expr = `strings.containsStr(v: string(v: ${colRef}), substr: ${JSON.stringify(String(f.value || ''))})`;
+                if (op === '!contains') expr = `not (${expr})`;
+            } else {
+                expr = `${colRef} ${toFluxOp(op)} ${valueLit}`;
+            }
+
             const logic = idx > 0 ? (st.filters[idx - 1].logicAfter || 'AND') : '';
             return { logic, expr };
         });
+
+        const needsStringsImport = (st.filters || []).some(f => f.operator === 'contains' || f.operator === '!contains');
 
         let filterLine = '';
         if (filterParts.length) {
@@ -183,18 +200,31 @@ export default function QuerySection({ dashboardId, onExportToGrafana, onQuerySt
             filterLine = `|> filter(fn: (r) => ${where})`;
         }
 
-        const windowLine = st.windowEvery ? `|> aggregateWindow(every: ${st.windowEvery}, fn: ${st.aggregate || 'mean'}, createEmpty: false)` : '';
+        // Group By: allow grouping by selected tags/fields
+        const groupCols = (st.groupBy || []).map(g => g.type === 'FIELD' ? '_field' : g.name);
+        const uniqueGroupCols = Array.from(new Set(groupCols));
+        const groupLine = uniqueGroupCols.length
+            ? `|> group(columns: [${uniqueGroupCols.map(n => JSON.stringify(n)).join(', ')}])`
+            : '';
+
+        const windowLine = st.windowEvery
+            ? `|> aggregateWindow(every: ${st.windowEvery}, fn: ${st.aggregate || 'mean'}, createEmpty: ${!!st.createEmpty})`
+            : '';
         const sortLine = '|> sort(columns: ["_time"])';
 
-        return [
+        const lines = [
+            needsStringsImport ? 'import "strings"' : null,
             `from(bucket: ${JSON.stringify(st.bucket)})`,
             rangeLine,
             meas,
             keepFields,
             filterLine,
+            groupLine,
             windowLine,
             sortLine,
-        ].filter(Boolean).join('\n  ');
+        ].filter(Boolean);
+
+        return lines.join('\n  ');
     };
 
     // Reset builder UI (does not touch Saved Queries)
@@ -313,6 +343,40 @@ export default function QuerySection({ dashboardId, onExportToGrafana, onQuerySt
         if (st.timezone) setTimezone(st.timezone);
     };
 
+    // NEW: Add a combined series clause => (tagKey=tagValue AND _field=fieldName), OR-chained
+    const handleAddSeriesClause = ({ fieldName, tagKey, tagValue }) => {
+        // ensure the field is present in Selected Fields (so it isn't filtered out by keepFields)
+        setSelectedFields(prev =>
+            prev.some(f => f.type === 'FIELD' && f.name === fieldName)
+                ? prev
+                : [...prev, { type: 'FIELD', name: fieldName }]
+        );
+
+        setFilters(prev => {
+            const next = [...prev];
+            if (next.length > 0) {
+                // OR with previous clause block
+                next[next.length - 1] = { ...next[next.length - 1], logicAfter: "OR" };
+            }
+            // clause: tag equality then field equality with AND between them
+            next.push({
+                fieldType: 'TAG',
+                fieldName: tagKey,
+                operator: '=',
+                value: String(tagValue),
+                logicAfter: 'AND'
+            });
+            next.push({
+                fieldType: 'FIELD',
+                fieldName: fieldName,
+                operator: '=',
+                value: fieldName,
+                logicAfter: '' // end of clause
+            });
+            return next;
+        });
+    };
+
     // render
     return (
         <div className="query-section">
@@ -363,6 +427,7 @@ export default function QuerySection({ dashboardId, onExportToGrafana, onQuerySt
                 onRunQuery={handleRunQuery}
                 onSaveQuery={handleSaveQuery}
                 onResetQuery={handleResetBuilder}
+                onAddSeriesClause={handleAddSeriesClause} // NEW
             />
 
             <SavedQueries onLoadQuery={handleLoadSaved} />

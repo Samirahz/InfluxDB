@@ -13,6 +13,7 @@ function putTicket(data, ttlMs = 60_000) {
     setTimeout(() => tickets.delete(id), ttlMs).unref?.();
     return id;
 }
+// consume ticket by id
 function takeTicket(id) {
     const t = tickets.get(id);
     if (!t) return null;
@@ -81,16 +82,17 @@ function buildFluxFromState(state) {
     const {
         bucket,
         measurement,
-        fields = [], // [{type:'FIELD'|'TAG', name}]
-        filters = [], // [{fieldType, fieldName, operator, value, logicAfter}]
+        fields = [],
+        filters = [],
         windowEvery = '1m',
         aggregate = 'mean',
         timePreset = 'Last 1h',
         timeFrom,
         timeTo,
+        groupBy = [],
+        createEmpty = false,
     } = state || {};
 
-    // time range
     const presetToRange = (p) => {
         const map = {
             'Last 5m': '-5m', 'Last 15m': '-15m', 'Last 30m': '-30m',
@@ -101,34 +103,43 @@ function buildFluxFromState(state) {
         return map[p] || '-1h';
     };
 
+    // time range line
     const rangeLine = timePreset === 'Custom' && timeFrom && timeTo
         ? `|> range(start: ${JSON.stringify(timeFrom)}, stop: ${JSON.stringify(timeTo)})`
         : `|> range(start: ${presetToRange(timePreset)})`;
-
-    // filters
+    // measurement filter line
     const measFilter = measurement
         ? `|> filter(fn: (r) => r._measurement == ${JSON.stringify(measurement)})`
         : '';
-
+    // filter expressions
+    const toFluxOp = (op) => (op === '=' ? '==' : op);
+    const mkColRef = (f) => (f.fieldType === 'FIELD' ? 'r._field' : `r[${JSON.stringify(f.fieldName)}]`);
+    // build filter parts
     const filterParts = (filters || []).map((f, idx) => {
         const op = f.operator || '=';
-        const value = (op === 'regex')
+        const colRef = mkColRef(f);
+        const valueLit = (op === 'regex')
             ? new RegExp(f.value || '').toString()
             : JSON.stringify(f.value ?? '');
-        const col = f.fieldType === 'FIELD' ? '_field' : f.fieldName; // TAG uses its tag key
-        const expr = op === 'regex'
-            ? `r.${col} =~ ${value}`
-            : op === 'contains' || op === '!contains'
-                ? `${op === 'contains' ? '' : '!'}contains(value: r.${col}, set: [${JSON.stringify(f.value || '')}])`
-                : `r.${col} ${op} ${value}`;
-
+        // build expression
+        let expr;
+        if (op === 'regex') {
+            expr = `${colRef} =~ ${valueLit}`;
+        } else if (op === 'contains' || op === '!contains') {
+            expr = `strings.containsStr(v: string(v: ${colRef}), substr: ${JSON.stringify(String(f.value || ''))})`;
+            if (op === '!contains') expr = `not (${expr})`;
+        } else {
+            expr = `${colRef} ${toFluxOp(op)} ${valueLit}`;
+        }
+        // attach logic for all but first expr
         const logic = idx > 0 ? (filters[idx - 1].logicAfter || 'AND') : '';
         return { logic, expr };
     });
 
+    const needsStringsImport = (filters || []).some(f => f.operator === 'contains' || f.operator === '!contains');
+    // combine filter parts
     let filterLine = '';
     if (filterParts.length) {
-        // Combine with AND/OR
         const where = filterParts.reduce((acc, cur, i) => {
             const seg = `(${cur.expr})`;
             if (i === 0) return seg;
@@ -136,27 +147,37 @@ function buildFluxFromState(state) {
         }, '');
         filterLine = `|> filter(fn: (r) => ${where})`;
     }
-
-    // keep only selected FIELDS if provided
+    // selected fields line
     const selectedFieldNames = (fields || [])
         .filter(f => f.type === 'FIELD')
         .map(f => f.name);
+    // keep fields line
     const keepFields = selectedFieldNames.length
         ? `|> filter(fn: (r) => r._field =~ /${selectedFieldNames.map(n => n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')}/)`
         : '';
-
-    const windowLine = windowEvery ? `|> aggregateWindow(every: ${windowEvery}, fn: ${aggregate || 'mean'}, createEmpty: false)` : '';
+    // group by line
+    const groupCols = (groupBy || []).map(g => g.type === 'FIELD' ? '_field' : g.name);
+    const uniqueGroupCols = Array.from(new Set(groupCols));
+    const groupLine = uniqueGroupCols.length
+        ? `|> group(columns: [${uniqueGroupCols.map(n => JSON.stringify(n)).join(', ')}])`
+        : '';
+    // window line
+    const windowLine = windowEvery ? `|> aggregateWindow(every: ${windowEvery}, fn: ${aggregate || 'mean'}, createEmpty: ${!!createEmpty})` : '';
     const sortLine = '|> sort(columns: ["_time"])';
 
-    return [
+    const lines = [
+        needsStringsImport ? 'import "strings"' : null,
         `from(bucket: ${JSON.stringify(bucket)})`,
         rangeLine,
         measFilter,
         keepFields,
         filterLine,
+        groupLine,
         windowLine,
         sortLine,
-    ].filter(Boolean).join('\n  ');
+    ].filter(Boolean);
+
+    return lines.join('\n  ');
 }
 
 // Ensure a Grafana InfluxDB v2 data source for the current user (uses req.user.*)

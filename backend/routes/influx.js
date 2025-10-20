@@ -166,4 +166,37 @@ router.post('/query', authMiddleware, async (req, res) => {
   }
 });
 
+// NEW: Tag values for a specific tag key (filtered by measurement)
+router.get('/tag-values/:bucket/:measurement/:tagKey', authMiddleware, async (req, res) => {
+  try {
+    const { bucket, measurement, tagKey } = req.params;
+    const client = getClientFromUser(req.user);
+    if (!client) {
+      return res.status(500).json({ error: 'Influx not configured' });
+    }
+
+    const queryApi = client.influxDB.getQueryApi(client.org);
+    const flux = `
+      import "influxdata/influxdb/schema"
+      schema.tagValues(
+        bucket: ${JSON.stringify(bucket)},
+        tag: ${JSON.stringify(tagKey)},
+        predicate: (r) => r._measurement == ${JSON.stringify(measurement)}
+      )
+      |> sort()
+    `;
+    const rows = await queryApi.collectRows(flux);
+    const values = rows.map(r => r._value).filter(Boolean);
+
+    // optional simple search filter (?q=...)
+    const q = String(req.query.q || "").toLowerCase();
+    const filtered = q ? values.filter(v => String(v).toLowerCase().includes(q)) : values;
+
+    res.json({ values: filtered });
+  } catch (error) {
+    console.error("Error fetching tag values:", error);
+    res.status(500).json({ error: 'Failed to fetch tag values' });
+  }
+});
+
 module.exports = router;
