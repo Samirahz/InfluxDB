@@ -84,7 +84,7 @@ INFLUX_URL=yourInfluxDBurl
 INFLUX_TOKEN=yourInfluxDBtoken
 INFLUX_ORG=yourOrgName
 
-GRAFANA_URL=https://yourUserName.grafana.net/
+GRAFANA_URL=yourGrafanaUrl
 GRAFANA_TOKEN=yourGrafanaToken
 ```
 
