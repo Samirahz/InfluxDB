@@ -79,12 +79,6 @@ npm install
 ```
 4. Create a **.env** file in `/backend` with following content:
 ```bash
-DB_USER=yourname
-DB_HOST=localhost
-DB_NAME=influx01
-DB_PASSWORD=yourpassword
-DB_PORT=5432
-JWT_SECRET=influx-db-01
 
 INFLUX_URL=yourInfluxDBurl
 INFLUX_TOKEN=yourInfluxDBtoken
